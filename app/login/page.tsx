@@ -25,30 +25,41 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="text-green-500 flex justify-center items-center h-screen bg-gray-100">
+    <div className="flex justify-center items-center min-h-screen bg-gradient-to-r from-blue-400 to-purple-500">
       <form
         onSubmit={handleLogin}
-        className="bg-white shadow-md rounded-lg p-6 w-96"
+        className="bg-white shadow-2xl rounded-2xl p-10 w-96 animate-fadeIn"
       >
-        <h2 className="text-2xl font-bold mb-4 text-center">🔐 Admin Login</h2>
-        {error && <p className="text-red-500 mb-3">{error}</p>}
-        <input
-          type="text"
-          placeholder="Username"
-          className="w-full border p-2 mb-3 rounded text-black"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          className="w-full border p-2 mb-3 rounded text-black"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+        <h2 className="text-3xl font-bold mb-6 text-center text-gray-800">
+          🔐 Admin Login
+        </h2>
+        {error && (
+          <p className="text-red-500 text-center mb-4 font-medium">{error}</p>
+        )}
+
+        <div className="mb-4">
+          <input
+            type="text"
+            placeholder="Username"
+            className="w-full border border-gray-300 p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-300 text-gray-800"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+        </div>
+
+        <div className="mb-6">
+          <input
+            type="password"
+            placeholder="Password"
+            className="w-full border border-gray-300 p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-400 transition duration-300 text-gray-800"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+          className="w-full bg-gradient-to-r from-blue-500 to-purple-500 text-white py-3 rounded-xl font-semibold shadow-lg hover:scale-105 transform transition duration-300"
         >
           Login
         </button>
