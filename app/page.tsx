@@ -30,7 +30,7 @@ export default function Home() {
 
       {/* Hero Section */}
       <header
-        className="relative bg-cover bg-center bg-no-repeat py-10 md:py-35 text-center text-white"
+        className="relative bg-cover bg-center bg-no-repeat py-25 md:py-35 text-center text-white"
         style={{ backgroundImage: "url('/herobackground-image.jpg')" }}
       >
         <div className="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
