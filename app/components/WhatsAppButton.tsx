@@ -23,7 +23,7 @@ const WhatsAppButton = () => {
 
   if (hideButton) return null
 
-  const whatsappNumber = "923184017699"
+  const whatsappNumber = "923184017664"
 
   const handleClick = () => {
     window.open(`https://wa.me/${whatsappNumber}`, "_blank")
