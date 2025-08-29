@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+     "postbuild": "next-sitemap",
     "postinstall": "npx prisma generate"
   },
   "dependencies": {
@@ -14,6 +15,7 @@
     "exceljs": "^4.4.0",
     "lucide-react": "^0.542.0",
     "next": "15.5.2",
+    "next-sitemap": "^4.2.3",
     "pdf-lib": "^1.17.1",
     "prisma": "^6.15.0",
     "react": "19.1.0",
