@@ -62,7 +62,7 @@ export default function Home() {
       <li>Roll Number</li>
       <li>Student Name</li>
       <li>Father Name</li>
-      <li>Form “B” / CNIC Number</li>
+      <li>Form B / CNIC Number</li>
       <li>Cell Number</li>
       <li>Full Address</li>
     </ul>
