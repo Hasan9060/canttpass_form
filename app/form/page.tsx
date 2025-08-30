@@ -218,32 +218,20 @@ export default function StudentForm() {
         </div>
 
         {/* B-Form */}
-       <div>
-  <label className="block text-sm font-medium text-blue-700">
-    B-Form No
-  </label>
-  <input
-    type="text"
-    name="formB"
-    value={form.formB}
-    onChange={(e) => {
-      const value = e.target.value.replace(/\D/g, ""); // sirf digits allow
-      if (value.length <= 15) {
-        setForm({ ...form, formB: value });
-      }
-    }}
-    onBlur={(e) => {
-      if (e.target.value.length < 13) {
-        alert("B-Form No must be at least 13 digits.");
-      }
-    }}
-    className="w-full p-2 border rounded-lg mt-1 text-black"
-    maxLength={15}
-    required
-  />
-</div>
-
-      
+        <div>
+          <label className="block text-sm font-medium text-blue-700">
+            B-Form No
+          </label>
+          <input
+            type="text"
+            name="formB"
+            value={form.formB}
+            onChange={(e) => handleNumberChange(e, "formB")}
+            className="w-full p-2 border rounded-lg mt-1 text-black"
+            maxLength={15}
+            required
+          />
+        </div>
 
         {/* Cell No */}
         <div>
