@@ -1,10 +1,11 @@
 "use client";
 import { useState } from "react";
 import Image from "next/image";
+import imageCompression from "browser-image-compression";
 import { useRouter } from "next/navigation";
 
 export default function StudentForm() {
-   const router = useRouter();
+  const router = useRouter();
   const [form, setForm] = useState({
     name: "",
     rollNo: "",
@@ -18,8 +19,8 @@ export default function StudentForm() {
     admissionDate: new Date().toISOString().split("T")[0],
   });
 
-  const [errorMessage, setErrorMessage] = useState(""); 
-  const [isSubmitting, setIsSubmitting] = useState(false); 
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // input change handler
   const handleChange = (
@@ -28,14 +29,26 @@ export default function StudentForm() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  // image upload
-  const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+  // ✅ image upload + compression
+  const handleImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    const reader = new FileReader();
-    reader.onload = () =>
-      setForm((prev) => ({ ...prev, image: reader.result as string }));
-    reader.readAsDataURL(file);
+
+    try {
+      const options = {
+        maxSizeMB: 0.015, // ~15 KB
+        maxWidthOrHeight: 300, // resize to keep quality
+        useWebWorker: true,
+      };
+
+      const compressedFile = await imageCompression(file, options);
+      const reader = new FileReader();
+      reader.onload = () =>
+        setForm((prev) => ({ ...prev, image: reader.result as string }));
+      reader.readAsDataURL(compressedFile);
+    } catch (err) {
+      console.error("❌ Image compression error:", err);
+    }
   };
 
   // ✅ form submit
@@ -143,7 +156,7 @@ export default function StudentForm() {
     form.type.trim();
 
   return (
-    <div className="min-h-screen bg-gray-200 flex items-center justify-center p-6">
+    <div className="min-h-screen bg-gray-200 py-24 flex items-center justify-center p-6">
       <form
         onSubmit={handleSubmit}
         className="bg-white border-2 border-green-500 shadow-[0_0_20px_#22c55e] rounded-xl p-6 w-full max-w-lg space-y-4"
@@ -263,6 +276,10 @@ export default function StudentForm() {
             <option value="">Select Class</option>
             <option value="XI">XI</option>
             <option value="XII">XII</option>
+            <option value="ADS-I">ADS I</option>
+            <option value="ADS-II">ADS II</option>
+            <option value="ADC-I">ADC I</option>
+            <option value="ADC-II">ADC II</option>
           </select>
         </div>
 

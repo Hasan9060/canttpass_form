@@ -7,7 +7,7 @@ export default function SubmittingPage() {
   const router = useRouter();
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-indigo-500 via-purple-600 to-pink-500 text-white relative overflow-hidden px-4">
+    <div className="flex py-25 min-h-screen items-center justify-center bg-gradient-to-br from-indigo-500 via-purple-600 to-pink-500 text-white relative overflow-hidden px-4">
       <WhatsAppButton />
       {/* Background Decorative Circles */}
       <div className="absolute -top-24 -left-24 w-56 h-56 sm:w-72 sm:h-72 bg-pink-400/30 rounded-full blur-3xl" />
@@ -27,14 +27,8 @@ export default function SubmittingPage() {
           <h2 className="text-lg sm:text-xl font-bold mb-2">Instructions:<span className="text-red-400"> (Important)</span></h2>
           <ol className="list-decimal list-inside space-y-2 text-sm sm:text-base leading-relaxed">
             <li>Take a printout of the downloaded PDF.</li>
-            <li>
-              Ensure the document has the{" "}
-              <span className="font-semibold">S.A.H stamp</span>, otherwise the
-              application will be rejected.
-            </li>
-            <li>Submit the Form with all require documents.</li>
-            <li>Within a few days, your card will be received from the headquarter.</li>
-            <li>You will then be handed your card.</li>
+            <li>Submit the Form with all require documents in the College.</li>
+            <li>Within a few days, your card will be received from the College.</li>
           </ol>
         </div>
 

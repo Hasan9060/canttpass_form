@@ -110,7 +110,7 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               { name: "Hasan Rafay", role: "Full Stack Developer | AI Engineer", img: "/me.png", link: "https://www.linkedin.com/in/hasanrafay/" },
-              { name: "Syed Younus", role: "Director", img: "/younus.jpeg" },
+              { name: "Syed Younus", role: "Director | IT Expert", img: "/younus.jpeg" },
               { name: "Syed Ali Hamzah", role: "Graphic Designer", img: "/ali.jpeg" },
             ].map((person, idx) => (
               <div key={idx} className="bg-gray-50 p-8 rounded-xl shadow-xl hover:shadow-2xl transition-shadow duration-300 text-center hover:scale-105 transform transition-transform">

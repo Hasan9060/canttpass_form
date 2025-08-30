@@ -7,11 +7,12 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-     "postbuild": "next-sitemap",
+    "postbuild": "next-sitemap",
     "postinstall": "npx prisma generate"
   },
   "dependencies": {
     "@prisma/client": "^6.15.0",
+    "browser-image-compression": "^2.0.2",
     "exceljs": "^4.4.0",
     "lucide-react": "^0.542.0",
     "next": "15.5.2",

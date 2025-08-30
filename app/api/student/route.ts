@@ -36,7 +36,7 @@ export async function POST(req: Request) {
   const formattedDate = currentDate.toLocaleDateString("en-GB");
 
   // ✅ Load background template
-  const formPath = path.join(process.cwd(), "public/form-template.jpg");
+  const formPath = path.join(process.cwd(), "public/form-template.jpeg");
   const formBytes = fs.readFileSync(formPath);
 
   // ✅ Create PDF
