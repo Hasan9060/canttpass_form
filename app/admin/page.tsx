@@ -35,20 +35,32 @@ export default async function AdminPage({
   });
 
   return (
-    <div className="p-8 text-black bg-gradient-to-r from-gray-100 to-gray-200 min-h-screen">
+    <div className="p-8 py-25 text-black bg-gradient-to-r from-gray-100 to-gray-200 min-h-screen">
       <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
         📊 Admin Dashboard —{" "}
         <span className="text-blue-600">Syed Younus</span>
       </h1>
 
       {/* Actions (Excel + Home) */}
-      <div className="flex gap-3 mb-6 justify-center">
-        <Link
-          href="/api/admin/export"
-          className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
-        >
-          ⬇️ Download Excel
-        </Link>
+<div className="flex gap-3 mb-6 justify-center">
+  {/* Date Picker for Excel Export */}
+  <form
+    action="/api/admin/export"
+    method="GET"
+    className="flex gap-2 items-center"
+  >
+    <input
+      type="date"
+      name="date"
+      className="px-3 py-2 border rounded-lg"
+    />
+    <button
+      type="submit"
+      className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
+    >
+      ⬇️ Download Excel
+    </button>
+  </form>
         <Link
           href="/"
           className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
@@ -58,6 +70,7 @@ export default async function AdminPage({
       </div>
 
       {/* Search & Filters */}
+
       <form className="flex flex-wrap gap-3 mb-6 justify-center">
         <input
           type="text"
@@ -111,6 +124,7 @@ export default async function AdminPage({
               <th className="p-3 border text-left">Image</th>
               <th className="p-3 border text-left">Class</th>
               <th className="p-3 border text-left">Type</th>
+              <th className="p-3 border text-left">Date</th>
               <th className="p-3 border text-center">Action</th>
             </tr>
           </thead>
@@ -151,6 +165,9 @@ export default async function AdminPage({
                   </td>
                   <td className="border p-2">{s.class}</td>
                   <td className="border p-2">{s.type}</td>
+                  <td className="border p-2">
+  {s.date ? new Date(s.date).toLocaleDateString("en-GB") : "-"}
+</td>
                   <td className="border p-2 text-center">
                     <form action={deleteStudent}>
                       <input type="hidden" name="id" value={s.id} />

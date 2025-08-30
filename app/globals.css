@@ -1,5 +1,18 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "Alvi Nastaleeq";
+  src: url("/fonts/Alvi-Nastaleeq-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.urdu-text {
+  font-family: "Alvi Nastaleeq", serif;
+  font-size: 1.1rem; /* thoda readable */
+  line-height: 2rem;
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;

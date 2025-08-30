@@ -31,7 +31,7 @@ export default function Home() {
       {/* Hero Section */}
       <header
         className="relative bg-cover bg-center bg-no-repeat py-25 md:py-35 text-center text-white"
-        style={{ backgroundImage: "url('/herobackground-image.jpg')" }}
+        style={{ backgroundImage: "url('/herobackground-image.jpg')"  }}
       >
         <div className="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
 
@@ -52,40 +52,73 @@ export default function Home() {
       <section className="bg-gray-100 py-6">
         <div className="container mx-auto px-4 grid gap-6 md:grid-cols-1">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-2 text-gray-900">
-            INSTRUCTIONS
-          </h2>
+  INSTRUCTIONS ہدایات
+</h2>
 
-          <AccordionItem title="Fill in Your Details Clearly">
-            <ul className="list-disc list-inside space-y-2">
-              <li>Roll Number</li>
-              <li>Student Name</li>
-              <li>Father Name</li>
-              <li>Form “B” / CNIC Number</li>
-              <li>Cell Number</li>
-              <li>Full Address</li>
-            </ul>
-          </AccordionItem>
+{/* 1st Accordion */}
+<AccordionItem title="Fill in Your Details Clearly ">
+  <div className="grid md:grid-cols-2 gap-4">
+    <ul className="list-disc list-inside space-y-2">
+      <li>Roll Number</li>
+      <li>Student Name</li>
+      <li>Father Name</li>
+      <li>Form “B” / CNIC Number</li>
+      <li>Cell Number</li>
+      <li>Full Address</li>
+    </ul>
+    <ul className="list-disc list-inside urdu-text space-y-2 text-right">
+      <li>رول نمبر</li>
+      <li>طالب علم کا نام</li>
+      <li>والد کا نام</li>
+      <li>فارم "بی" / شناختی کارڈ نمبر</li>
+      <li>موبائل نمبر</li>
+      <li>مکمل پتہ</li>
+    </ul>
+  </div>
+</AccordionItem>
 
-          <AccordionItem title="Attach Required Documents (1 Copy Each)">
-            <ul className="list-disc list-inside space-y-2">
-              <li>College ID Card</li>
-              <li>B-Form / CNIC</li>
-              <li>SECCAP Admission Form (for XI students)</li>
-              <li>Permission Letter (if applicable)</li>
-              <li>Expired Malir Cantt. Entry Pass (for renewal)</li>
-            </ul>
-          </AccordionItem>
+{/* 2nd Accordion */}
+<AccordionItem title="Attach Required Documents">
+  <div className="grid md:grid-cols-2 gap-4">
+    <ul className="list-disc list-inside space-y-2">
+      <li>College ID Card</li>
+      <li>B-Form / CNIC</li>
+      <li>SECCAP Admission Form (for XI students)</li>
+      <li>Permission Letter (if applicable)</li>
+      <li>Expired Malir Cantt. Entry Pass (for renewal)</li>
+    </ul>
+    <ul className="list-disc list-inside urdu-text space-y-2 text-right">
+      <li>کالج شناختی کارڈ</li>
+      <li>بی فارم / شناختی کارڈ</li>
+      <li>سیکاپ داخلہ فارم (گیارہویں جماعت کے طلبہ کے لیے)</li>
+      <li>اجازت نامہ (اگر ضروری ہو)</li>
+      <li>ایکسپائرڈ ملیر کینٹ انٹری پاس (تجدید کے لیے)</li>
+    </ul>
+  </div>
+</AccordionItem>
 
-          <AccordionItem title="Important Notes & Submission">
-            <ul className="list-disc list-inside space-y-2">
-              <li>Attach all documents on the back of the form; otherwise it will be canceled.</li>
-              <li>Entry pass is issued only to college students.</li>
-              <li>Ensure all details are correct and legible.</li>
-              <li>Submit the filled form with documents to the designated office.</li>
-              <li>Keep the receipt safe; it expires in 30 days.</li>
-              <li>If lost, an FIR must be filed.</li>
-            </ul>
-          </AccordionItem>
+{/* 3rd Accordion */}
+<AccordionItem title="Important Notes & Submission">
+  <div className="grid md:grid-cols-2 gap-4">
+    <ul className="list-disc list-inside space-y-2">
+      <li>Attach all documents on the back of the form; otherwise it will be canceled.</li>
+      <li>Entry pass is issued only to college students.</li>
+      <li>Ensure all details are correct and legible.</li>
+      <li>Submit the filled form with documents to the designated office.</li>
+      <li>Keep the receipt safe; it expires in 30 days.</li>
+      <li>If lost, an FIR must be filed.</li>
+    </ul>
+    <ul className="list-disc list-inside urdu-text space-y-2 text-right">
+      <li>تمام دستاویزات فارم کے پیچھے منسلک کریں، ورنہ فارم منسوخ ہو جائے گا۔</li>
+      <li>انٹری پاس صرف کالج کے طلبہ کو جاری کیا جاتا ہے۔</li>
+      <li>یقینی بنائیں کہ تمام تفصیلات درست اور واضح ہیں۔</li>
+      <li>مکمل فارم اور دستاویزات مقررہ دفتر میں جمع کروائیں۔</li>
+      <li>رسید محفوظ رکھیں، یہ 30 دن کے بعد ختم ہو جائے گی۔</li>
+      <li>اگر گم ہو جائے تو ایف آئی آر درج کروانا ضروری ہے۔</li>
+    </ul>
+  </div>
+</AccordionItem>
+
 
           <div className="flex flex-col md:flex-row gap-4 justify-center mt-8">
             <Link

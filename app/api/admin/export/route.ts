@@ -1,36 +1,64 @@
-export const runtime = "nodejs"; 
+export const runtime = "nodejs";
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import ExcelJS from "exceljs";
 
-export async function GET() {
-  const students = await prisma.student.findMany({
-    orderBy: { createdAt: "desc" },
-  });
+export async function GET(req: Request) {
+  const { searchParams } = new URL(req.url);
+  const dateParam = searchParams.get("date");
 
+  let students;
+
+  // ✅ Date filter logic
+  if (dateParam) {
+    const start = new Date(dateParam);
+    const end = new Date(dateParam);
+    end.setDate(end.getDate() + 1);
+
+    students = await prisma.student.findMany({
+      where: {
+        createdAt: {
+          gte: start,
+          lt: end,
+        },
+      },
+      orderBy: { createdAt: "desc" },
+    });
+  } else {
+    students = await prisma.student.findMany({
+      orderBy: { createdAt: "desc" },
+    });
+  }
+
+  // ✅ Excel generate code (same as before)
   const workbook = new ExcelJS.Workbook();
   const sheet = workbook.addWorksheet("Students");
 
-  // ✅ Excel Columns (duplicate ROLL NO hata diya)
+  // Add Generated Date Row
+  const generatedDate = new Date().toISOString().split("T")[0];
+  sheet.addRow([`Generated Date: ${generatedDate}`]);
+  sheet.addRow([]); // empty row for spacing
+
+  // Excel Columns
   sheet.columns = [
-    { header: "ID", key: "id", width: 10 },
+    { header: "SERIAL NO", key: "serialNo", width: 12 },
     { header: "ROLL NO", key: "rollNo", width: 15 },
     { header: "NAME", key: "name", width: 25 },
     { header: "FATHER NAME", key: "fatherName", width: 25 },
     { header: "FORM B", key: "formB", width: 20 },
     { header: "CELL NO", key: "cellNo", width: 18 },
     { header: "ADDRESS", key: "address", width: 40 },
-    { header: "IMAGE", key: "image", width: 15 }, // Placeholder
+    { header: "IMAGE", key: "image", width: 15 },
     { header: "APPLICATION TYPE", key: "type", width: 18 },
-    { header: "CREATED AT", key: "createdAt", width: 25 },
+    { header: "DATE", key: "createdAt", width: 15 },
   ];
 
-  let rowIndex = 2; // header ke baad wali row
+  let rowIndex = 4;
+  let serial = 1;
 
   for (const s of students) {
-    // ✅ All string fields uppercase
     const rowData = {
-      id: s.id,
+      serialNo: serial,
       rollNo: s.rollNo?.toUpperCase() || "",
       name: s.name?.toUpperCase() || "",
       fatherName: s.fatherName?.toUpperCase() || "",
@@ -38,40 +66,36 @@ export async function GET() {
       cellNo: s.cellNo?.toUpperCase() || "",
       address: s.address?.toUpperCase() || "",
       type: s.type?.toUpperCase() || "",
-      createdAt: s.createdAt.toISOString(),
+      createdAt: s.createdAt.toISOString().split("T")[0],
     };
 
-    // ✅ Row add
     sheet.addRow(rowData);
 
-    // ✅ Agar image hai to embed karo
+    // Image embed
     if (s.image) {
-  try {
-   const res = await fetch(s.image);
-const arrayBuffer = await res.arrayBuffer();
+      try {
+        const res = await fetch(s.image);
+        const arrayBuffer = await res.arrayBuffer();
+        const imgBuffer: Buffer = Buffer.from(arrayBuffer);
 
-// ✅ Force cast to Node.js Buffer
-const imgBuffer: Buffer = Buffer.from(arrayBuffer);
+        const imageId = workbook.addImage({
+          buffer: imgBuffer as unknown as ExcelJS.Buffer,
+          extension: "png",
+        });
 
+        sheet.addImage(imageId, {
+          tl: { col: 7, row: rowIndex - 1 },
+          ext: { width: 60, height: 60 },
+        });
 
-   const imageId = workbook.addImage({
-  buffer: imgBuffer as unknown as ExcelJS.Buffer, // <-- type force
-  extension: "png",
-});
-
-
-    sheet.addImage(imageId, {
-      tl: { col: 7, row: rowIndex - 1 },
-      ext: { width: 60, height: 60 },
-    });
-
-    sheet.getRow(rowIndex).height = 50;
-  } catch (err) {
-    console.error("Image error:", err);
-  }
-}
+        sheet.getRow(rowIndex).height = 50;
+      } catch (err) {
+        console.error("Image error:", err);
+      }
+    }
 
     rowIndex++;
+    serial++;
   }
 
   const buffer = await workbook.xlsx.writeBuffer();

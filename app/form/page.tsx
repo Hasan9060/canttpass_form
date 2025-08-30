@@ -166,6 +166,9 @@ export default function StudentForm() {
           <span className="text-[14px] font-bold text-center text-gray-800 mb-4">
             ENTRY PASS FORM ONLY FOR COLLEGE STUDENTS
           </span>
+           <span className="text-[14px] font-bold text-center text-red-500 mb-2">
+            Fill the form Correctly otherwise form will be rejected
+          </span>
         </h1>
 
         {/* Roll No */}
@@ -215,20 +218,32 @@ export default function StudentForm() {
         </div>
 
         {/* B-Form */}
-        <div>
-          <label className="block text-sm font-medium text-blue-700">
-            B-Form No
-          </label>
-          <input
-            type="text"
-            name="formB"
-            value={form.formB}
-            onChange={(e) => handleNumberChange(e, "formB")}
-            className="w-full p-2 border rounded-lg mt-1 text-black"
-            maxLength={15}
-            required
-          />
-        </div>
+       <div>
+  <label className="block text-sm font-medium text-blue-700">
+    B-Form No
+  </label>
+  <input
+    type="text"
+    name="formB"
+    value={form.formB}
+    onChange={(e) => {
+      const value = e.target.value.replace(/\D/g, ""); // sirf digits allow
+      if (value.length <= 15) {
+        setForm({ ...form, formB: value });
+      }
+    }}
+    onBlur={(e) => {
+      if (e.target.value.length < 13) {
+        alert("B-Form No must be at least 13 digits.");
+      }
+    }}
+    className="w-full p-2 border rounded-lg mt-1 text-black"
+    maxLength={15}
+    required
+  />
+</div>
+
+      
 
         {/* Cell No */}
         <div>
@@ -304,7 +319,7 @@ export default function StudentForm() {
         {/* Image Upload */}
         <div>
           <label className="block text-sm font-medium text-blue-700">
-            Image
+           Image <span className="text-red-700">(Upload Passport Size Photo blue background otherwise rejected)</span>
           </label>
           <input
             type="file"
@@ -322,6 +337,9 @@ export default function StudentForm() {
               className="mt-2 object-cover rounded-lg border"
             />
           )}
+          <div className="block text-sm font-medium text-red-500">
+           No document image, no receipt image, just upload your passport size photo.
+          </div>
         </div>
 
         {/* Admission Date */}
