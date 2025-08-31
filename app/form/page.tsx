@@ -1,10 +1,18 @@
 "use client";
 import { useCallback, useState } from "react";
-import Image from "next/image";
 import imageCompression from "browser-image-compression";
 import { useRouter } from "next/navigation";
 import Cropper from "react-easy-crop";
 import getCroppedImg from "@/lib/cropImage";
+
+
+type Area = {
+  width: number;
+  height: number;
+  x: number;
+  y: number;
+};
+
 
 export default function StudentForm() {
   const router = useRouter();
@@ -25,10 +33,17 @@ export default function StudentForm() {
   const [imageSrc, setImageSrc] = useState<string | null>(null);
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
-  const [croppedAreaPixels, setCroppedAreaPixels] = useState<any>(null);
-  const onCropComplete = useCallback((_: any, croppedAreaPixels: any) => {
+ 
+
+const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null);
+
+const onCropComplete = useCallback(
+  (_: Area, croppedAreaPixels: Area) => {
     setCroppedAreaPixels(croppedAreaPixels);
-  }, []);
+  },
+  []
+);
+
 
   
   const [errorMessage, setErrorMessage] = useState("");
