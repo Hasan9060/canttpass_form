@@ -1,8 +1,10 @@
 "use client";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import Image from "next/image";
 import imageCompression from "browser-image-compression";
 import { useRouter } from "next/navigation";
+import Cropper from "react-easy-crop";
+import getCroppedImg from "@/lib/cropImage";
 
 export default function StudentForm() {
   const router = useRouter();
@@ -19,6 +21,16 @@ export default function StudentForm() {
     admissionDate: new Date().toISOString().split("T")[0],
   });
 
+  // Image Crop Feature
+  const [imageSrc, setImageSrc] = useState<string | null>(null);
+  const [crop, setCrop] = useState({ x: 0, y: 0 });
+  const [zoom, setZoom] = useState(1);
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState<any>(null);
+  const onCropComplete = useCallback((_: any, croppedAreaPixels: any) => {
+    setCroppedAreaPixels(croppedAreaPixels);
+  }, []);
+
+  
   const [errorMessage, setErrorMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -37,19 +49,40 @@ export default function StudentForm() {
     try {
       const options = {
         maxSizeMB: 0.015, // ~15 KB
-        maxWidthOrHeight: 300, // resize to keep quality
+        maxWidthOrHeight: 400, // resize to keep quality
         useWebWorker: true,
       };
 
       const compressedFile = await imageCompression(file, options);
       const reader = new FileReader();
-      reader.onload = () =>
-        setForm((prev) => ({ ...prev, image: reader.result as string }));
+      reader.onload = () => setImageSrc(reader.result as string);
       reader.readAsDataURL(compressedFile);
     } catch (err) {
-      console.error("❌ Image compression error:", err);
+      console.error("Image compression error:", err);
     }
   };
+
+    // Generate cropped image
+  const generateCroppedImage = async () => {
+  if (!imageSrc || !croppedAreaPixels) return;
+
+  // Get cropped base64 image
+  const croppedImage = await getCroppedImg(imageSrc, croppedAreaPixels);
+
+  // Optional: convert base64 to blob & create File with CNIC as name
+  const res = await fetch(croppedImage);
+  const blob = await res.blob();
+  const fileName = form.formB ? `${form.formB}.png` : "student.png";
+  const file = new File([blob], fileName, { type: blob.type });
+
+  // Set cropped image and file name in form
+  setForm((prev) => ({
+    ...prev,
+    image: croppedImage, // base64 for preview / PDF generation
+    imageFile: file,     // file object for optional upload
+  }));
+};
+
 
   // ✅ form submit
   const handleSubmit = async (e: React.FormEvent) => {
@@ -156,7 +189,7 @@ export default function StudentForm() {
     form.type.trim();
 
   return (
-    <div className="min-h-screen bg-gray-200 py-24 flex items-center justify-center p-6">
+<div className="min-h-screen bg-gradient-to-b from-yellow-100 via-blue-300 to-indigo-400 py-24 flex items-center justify-center">
       <form
         onSubmit={handleSubmit}
         className="bg-white border-2 border-green-500 shadow-[0_0_20px_#22c55e] rounded-xl p-6 w-full max-w-lg space-y-4"
@@ -190,7 +223,7 @@ export default function StudentForm() {
         {/* Student Name */}
         <div>
           <label className="block text-sm font-medium text-blue-700">
-            Student Name
+            Student Name (Full Name)
           </label>
           <input
             type="text"
@@ -205,7 +238,7 @@ export default function StudentForm() {
         {/* Father Name */}
         <div>
           <label className="block text-sm font-medium text-blue-700">
-            Father Name
+            Father Name (Full Name)
           </label>
           <input
             type="text"
@@ -316,15 +349,46 @@ export default function StudentForm() {
             className="w-full p-2 border rounded-lg mt-1 text-black"
             required
           />
-          {form.image && (
-            <Image
-              src={form.image}
-              alt="Preview"
-              width={96}
-              height={96}
-              className="mt-2 object-cover rounded-lg border"
-            />
-          )}
+          {imageSrc && (
+  <div className="relative w-full h-40 mt-2">
+    <Cropper
+      image={imageSrc}
+      crop={crop}
+      zoom={zoom}
+      aspect={1}
+      onCropChange={setCrop}
+      onZoomChange={setZoom}
+      onCropComplete={onCropComplete}
+    />
+    <input
+      type="range"
+      min={1}
+      max={3}
+      step={0.01}
+      value={zoom}
+      onChange={(e) => setZoom(parseFloat(e.target.value))}
+      className="mt-2 w-full"
+    />
+
+    {/* ✅ Crop & Use Image Button */}
+    {!form.image && (
+      <button
+        type="button"
+        onClick={generateCroppedImage}
+        className="mt-40 w-full py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
+      >
+        ✅ Crop & Use Image
+      </button>
+    )}
+
+    {/* ✅ Confirmation */}
+    {form.image && (
+      <div className="mt-40 text-center text-green-600 font-semibold">
+        Cropped image ready ✅
+      </div>
+    )}
+  </div>
+)}
           <div className="block text-sm font-medium text-red-500">
            No document image, no receipt image, just upload your passport size photo.
           </div>

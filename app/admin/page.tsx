@@ -14,6 +14,12 @@ export default async function AdminPage({
   const classFilter =
     typeof params?.class === "string" ? params.class : undefined;
 
+  
+// ✅ Pagination
+const page = typeof params?.page === "string" ? parseInt(params.page) : 1;
+const pageSize = 30;
+const skip = (page - 1) * pageSize;
+
   const students = await prisma.student.findMany({
     where: {
       AND: [
@@ -30,8 +36,31 @@ export default async function AdminPage({
         classFilter ? { class: classFilter } : {},
       ],
     },
-    orderBy: { createdAt: "desc" },
+    orderBy: { createdAt: "asc" },
+     take: pageSize, 
+  skip: skip,
   });
+
+  const totalStudents = await prisma.student.count({
+  where: {
+    AND: [
+      q
+        ? {
+            OR: [
+              { rollNo: { contains: q, mode: "insensitive" } },
+              { formB: { contains: q, mode: "insensitive" } },
+              { name: { contains: q, mode: "insensitive" } },
+            ],
+          }
+        : {},
+      type ? { type } : {},
+      classFilter ? { class: classFilter } : {},
+    ],
+  },
+});
+
+const totalPages = Math.ceil(totalStudents / pageSize);
+
 
   return (
     <div className="p-8 py-25 text-black bg-gradient-to-r from-gray-100 to-gray-200 min-h-screen">
@@ -39,6 +68,12 @@ export default async function AdminPage({
         📊 Admin Dashboard —{" "}
         <span className="text-blue-600">Syed Younus</span>
       </h1>
+
+      {/* Total Students */}
+  <div className="mb-4 text-center font-semibold text-lg">
+   Total Students: {totalStudents}
+</div>
+
 
       {/* Actions (Excel + Home) */}
 <div className="flex gap-3 mb-6 justify-center">
@@ -183,6 +218,22 @@ export default async function AdminPage({
             )}
           </tbody>
         </table>
+        <div className="flex justify-center gap-2 mt-4">
+  {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
+    <Link
+      key={p}
+      href={`?q=${q || ""}&type=${type || ""}&class=${classFilter || ""}&page=${p}`}
+      className={`px-3 py-1 border rounded ${
+        p === page ? "bg-blue-600 text-white" : "bg-white text-black"
+      }`}
+    >
+      {p}
+    </Link>
+  ))}
+</div>
+  <div className="mb-4 text-center font-semibold text-lg">
+    <span className="text-green-500">Raw per Page:</span> {students.length}
+  </div>
       </div>
     </div>
   );

@@ -9,7 +9,6 @@ export async function GET(req: Request) {
 
   let students;
 
-  // ✅ Date filter logic
   if (dateParam) {
     const start = new Date(dateParam);
     const end = new Date(dateParam);
@@ -17,10 +16,7 @@ export async function GET(req: Request) {
 
     students = await prisma.student.findMany({
       where: {
-        createdAt: {
-          gte: start,
-          lt: end,
-        },
+        createdAt: { gte: start, lt: end },
       },
       orderBy: { createdAt: "desc" },
     });
@@ -30,14 +26,13 @@ export async function GET(req: Request) {
     });
   }
 
-  // ✅ Excel generate code (same as before)
   const workbook = new ExcelJS.Workbook();
   const sheet = workbook.addWorksheet("Students");
 
   // Add Generated Date Row
   const generatedDate = new Date().toISOString().split("T")[0];
   sheet.addRow([`Generated Date: ${generatedDate}`]);
-  sheet.addRow([]); // empty row for spacing
+  sheet.addRow([]);
 
   // Excel Columns
   sheet.columns = [
@@ -69,9 +64,12 @@ export async function GET(req: Request) {
       createdAt: s.createdAt.toISOString().split("T")[0],
     };
 
-    sheet.addRow(rowData);
+    const row = sheet.addRow(rowData);
 
-    // Image embed
+    // Row text alignment
+    row.alignment = { vertical: "middle", horizontal: "center", wrapText: true };
+
+    // Embed small image in IMAGE column safely
     if (s.image) {
       try {
         const res = await fetch(s.image);
@@ -84,7 +82,7 @@ export async function GET(req: Request) {
         });
 
         sheet.addImage(imageId, {
-          tl: { col: 7, row: rowIndex - 1 },
+          tl: { col: 7.1, row: rowIndex - 1 }, // slight offset
           ext: { width: 60, height: 60 },
         });
 
