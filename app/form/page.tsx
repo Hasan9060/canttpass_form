@@ -156,7 +156,7 @@ export default function StudentForm() {
     form.type.trim();
 
   return (
-    <div className="min-h-screen bg-gray-200 py-24 flex items-center justify-center p-6">
+    <div className="min-h-screen bg-gradient-to-b from-yellow-100 via-blue-300 to-indigo-400 py-24 flex items-center justify-center">
       <form
         onSubmit={handleSubmit}
         className="bg-white border-2 border-green-500 shadow-[0_0_20px_#22c55e] rounded-xl p-6 w-full max-w-lg space-y-4"
@@ -173,8 +173,8 @@ export default function StudentForm() {
 
         {/* Roll No */}
         <div>
-          <label className="block text-sm font-medium text-blue-700">
-            Roll No
+          <label className="block text-sm font-bold text-blue-700">
+            Roll No:
           </label>
           <input
             type="text"
@@ -189,8 +189,8 @@ export default function StudentForm() {
 
         {/* Student Name */}
         <div>
-          <label className="block text-sm font-medium text-blue-700">
-            Student Name
+          <label className="block text-sm font-bold text-blue-700">
+            Student Name:
           </label>
           <input
             type="text"
@@ -204,8 +204,8 @@ export default function StudentForm() {
 
         {/* Father Name */}
         <div>
-          <label className="block text-sm font-medium text-blue-700">
-            Father Name
+          <label className="block text-sm font-bold text-blue-700">
+            Father Name:
           </label>
           <input
             type="text"
@@ -219,36 +219,26 @@ export default function StudentForm() {
 
         {/* B-Form */}
        <div>
-  <label className="block text-sm font-medium text-blue-700">
-    B-Form No
-  </label>
-  <input
-    type="text"
-    name="formB"
-    value={form.formB}
-    onChange={(e) => {
-      const value = e.target.value.replace(/\D/g, ""); // sirf digits allow
-      if (value.length <= 15) {
-        setForm({ ...form, formB: value });
-      }
-    }}
-    onBlur={(e) => {
-      if (e.target.value.length < 13) {
-        alert("B-Form No must be at least 13 digits.");
-      }
-    }}
-    className="w-full p-2 border rounded-lg mt-1 text-black"
-    maxLength={15}
-    required
-  />
-</div>
+          <label className="block text-sm font-bold text-blue-700">
+            B-Form No:
+          </label>
+          <input
+            type="text"
+            name="formB"
+            value={form.formB}
+            onChange={(e) => handleNumberChange(e, "formB")}
+            className="w-full p-2 border rounded-lg mt-1 text-black"
+            maxLength={15}
+            required
+          />
+        </div>
 
       
 
         {/* Cell No */}
         <div>
-          <label className="block text-sm font-medium text-blue-700">
-            Cell No
+          <label className="block text-sm font-bold text-blue-700">
+            Cell No:
           </label>
           <input
             type="text"
@@ -263,8 +253,8 @@ export default function StudentForm() {
 
         {/* Address */}
         <div>
-          <label className="block text-sm font-medium text-blue-700">
-            Full Address
+          <label className="block text-sm font-bold text-blue-700">
+            Full Address:
           </label>
           <input
             type="text"
@@ -278,8 +268,8 @@ export default function StudentForm() {
 
         {/* Class Select */}
         <div>
-          <label className="block text-sm font-medium text-blue-700">
-            Class
+          <label className="block text-sm font-bold text-blue-700">
+            Class:
           </label>
           <select
             name="class"
@@ -300,8 +290,8 @@ export default function StudentForm() {
 
         {/* Type Select */}
         <div>
-          <label className="block text-sm font-medium text-blue-700">
-            Type
+          <label className="block text-sm font-bold text-blue-700">
+            Type:
           </label>
           <select
             name="type"
@@ -318,8 +308,8 @@ export default function StudentForm() {
 
         {/* Image Upload */}
         <div>
-          <label className="block text-sm font-medium text-blue-700">
-           Image <span className="text-red-700">(Upload Passport Size Photo blue background otherwise rejected)</span>
+          <label className="block text-sm font-bold text-blue-700">
+           Image: <span className="text-red-700">(Upload Passport Size Photo blue background otherwise rejected)</span>
           </label>
           <input
             type="file"
