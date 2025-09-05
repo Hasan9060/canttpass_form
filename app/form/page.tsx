@@ -12,7 +12,7 @@ export default function StudentForm() {
     address: "",
     fatherName: "",
     formB: "",
-    cellNo: "03", // hamesha 03 se start karega
+    cellNo: "03", 
     image: "" as string,
     class: "",
     type: "",
@@ -67,7 +67,7 @@ export default function StudentForm() {
       if (!res.ok) {
         const contentType = res.headers.get("content-type") || "";
         let errMsg =
-          "You have already filled the form, please contact the admin at 03184017664.!";
+          "You have already filled the form, please contact the Helpline at 03184017664.!";
 
         if (contentType.includes("application/json")) {
           const err = await res.json();

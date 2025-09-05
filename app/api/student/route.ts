@@ -183,12 +183,6 @@ export async function POST(req: Request) {
   page.drawText(fatherName.toUpperCase(), { x: 180, y: height - 870, size: 14, font });
   page.drawText(formB, { x: 220, y: height - 905, size: 16, font });
   page.drawText(cellNo, { x: 490, y: height - 905, size: 16, font });
-  page.drawText(`${formattedDate}`, {
-    x: 220,
-    y: height - 945,
-    size: 16,
-    font,
-  });
 
   // ✅ Class in receipt
   drawInBoxes(`${studentClass}`, 400, height - 785);

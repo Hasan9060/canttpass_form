@@ -36,7 +36,7 @@ const skip = (page - 1) * pageSize;
         classFilter ? { class: classFilter } : {},
       ],
     },
-    orderBy: { createdAt: "asc" },
+    orderBy: { createdAt: "desc" },
      take: pageSize, 
   skip: skip,
   });
@@ -66,7 +66,7 @@ const totalPages = Math.ceil(totalStudents / pageSize);
     <div className="p-8 py-25 text-black bg-gradient-to-r from-gray-100 to-gray-200 min-h-screen">
       <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
         📊 Admin Dashboard —{" "}
-        <span className="text-blue-600">Syed Younus</span>
+        <span className="text-blue-600">Welcome Syed Younus</span>
       </h1>
 
       {/* Total Students */}
